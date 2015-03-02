@@ -15,10 +15,10 @@ import static org.robkinsey.abm.Utilities.randInt;
  */
 public class Space {
     
-    Corpse[] corpses;
+    Item[] items;
     Ant[] ants;
-    Corpse[][] cMap;
-    Ant[][] aMap; // Map of agents in the space
+    Item[][] cMap;
+    Ant[][] aMap;
     int xmax;
     int ymax;
     
@@ -26,27 +26,27 @@ public class Space {
     {
         xmax = x-1;
         ymax = x-1;  
-        cMap = new Corpse[x][x];
+        cMap = new Item[x][x];
         aMap = new Ant[x][x];
     }
     
-    public void initializeCorpses (int n)
+    public void initializeItems (int n)
     {
-        //Refactor method to prevent use cMap instead of corpses. Or maybe it is the same thing?
-        corpses = new Corpse[n];
+        //Refactor method to prevent use cMap instead of items. Or maybe it is the same thing?
+        items = new Item[n];
         
         for (int i=0; i<n; i++)
         {
-            corpses[i] = new Corpse();
-            corpses[i].x = randInt(0, xmax);
-            corpses[i].y = randInt(0, ymax);
-            corpses[i].id = i;
-            corpses[i].color = Color.GRAY;
+            items[i] = new Item();
+            items[i].x = randInt(0, xmax);
+            items[i].y = randInt(0, ymax);
+            items[i].id = i;
+            items[i].color = Color.GRAY;
             
-            cMap[corpses[i].x][corpses[i].y] = corpses[i];
+            cMap[items[i].x][items[i].y] = items[i];
             
-            //System.out.println("Corpse id: " + Integer.toString(corpses[i].id) + " x=" + Integer.toString(corpses[i].x) + " y=" + Integer.toString(corpses[i].y));
-            //System.out.println("cMap   id: " + Integer.toString(cMap[corpses[i].x][corpses[i].y].id));
+            //System.out.println("Item id: " + Integer.toString(items[i].id) + " x=" + Integer.toString(items[i].x) + " y=" + Integer.toString(items[i].y));
+            //System.out.println("cMap   id: " + Integer.toString(cMap[items[i].x][items[i].y].id));
         } 
     }
     
@@ -59,9 +59,6 @@ public class Space {
             ants[i] = new Ant(i);
             ants[i].x = randInt(0,xmax);
             ants[i].y = randInt(0,ymax);
-            
-            aMap[ants[i].x][ants[i].y] = ants[i];
-            
         }
         
     }
@@ -73,34 +70,32 @@ public class Space {
         }
     }
     
-    public void addCorpse( int x, int y, int id )
+    public void addItem( int x, int y, int id )
     {
-        corpses[id].x = x;
-        corpses[id].y = y;
-        corpses[id].color = Color.RED;
-        cMap[x][y] = corpses[id];
+        items[id].x = x;
+        items[id].y = y;
+        items[id].color = Color.RED;
+        cMap[x][y] = items[id];
     }
 
-    public Corpse removeCorpse( int x, int y )
+    public Item removeItem( int x, int y )
     {
 
-        Corpse c = cMap[x][y];
+        Item c = cMap[x][y];
         c.x = -1;
         c.y = -1;
-        System.out.println("SPACE: Removed corpse " + Integer.toString(c.id)
+        /*
+        System.out.println("SPACE: Removed item " + Integer.toString(c.id)
                 + " at x="+ Integer.toString(x) + ",y=" + Integer.toString(y));
+        */
         cMap[x][y] = null;
         return c;
     }
         
-    public boolean checkCorpse( int x, int y )
+    public boolean checkForItem( int x, int y )
     {
         boolean lret;
-        if (cMap[x][y] != null) {
-            lret = true;
-        } else {
-            lret = false;
-        }
+        lret = cMap[x][y] != null;
         return lret;
     }
     
@@ -132,14 +127,14 @@ public class Space {
         return c;
     }
     
-    public boolean[][] getAdjacentCorpses( int x, int y )
+    public boolean[][] getAdjacentItems( int x, int y )
     {
         boolean[][] c = getAdjacentCells(x, y);
         
         for (int dx = -1; dx < 2; dx++){
             for(int dy = -1; dy < 2; dy++){
                 if ( c[dx+1][dy+1] ) {
-                    c[dx+1][dy+1] = checkCorpse( x+dx, y+dy );
+                    c[dx+1][dy+1] = checkForItem( x+dx, y+dy );
                 }
             }
         }

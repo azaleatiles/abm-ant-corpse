@@ -12,10 +12,10 @@ import java.awt.Color;
  *
  * @author robert
  */
-public class Corpse {
+public class Item {
     
-    int x; // x position of the corpse
-    int y; // y position of the corpse
+    int x; // x position of the item
+    int y; // y position of the item
     int id; // id of the corpse
     Color color;
     

@@ -22,9 +22,9 @@ public class ABMApplet extends JApplet implements Runnable {
     JLabel lbl;
     Thread t= null;
     boolean threadSuspended;
-    int envsize = 100;
-    int nCorpses = 100;
-    int nAnts = 100;
+    int envsize = 300;
+    int nItems = 1000;
+    int nAnts = 1000;
     int tMax = 100000;
     int waitTime = 10;
     
@@ -36,12 +36,12 @@ public class ABMApplet extends JApplet implements Runnable {
     public void init() {
         
         space = new Space(envsize);
-        space.initializeCorpses(nCorpses);
+        space.initializeItems(nItems);
         space.initializeAnts(nAnts);
         
         canvas = new ABMCanvas();
-        canvas.antMap = space.aMap;
-        canvas.corpseMap = space.cMap;
+        canvas.ants = space.ants;
+        canvas.items = space.items;
         canvas.xmax = envsize;
         canvas.ymax = envsize;
         
